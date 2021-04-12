@@ -4,7 +4,11 @@
     <h1 class="mini-val-a"> a  = {{aValuedeg}} degrees {{aValuerad}} radians (angle of rotation in yz plane)</h1>
 
     <div class="viz-wrapper">
-      <HelloWorld msg="Welcome to Your Vue.js App" v-on:sendPoints="updateCoordinates"/>
+      <div>
+        <p>drag the cones to change the perspective</p>
+        <HelloWorld msg="Welcome to Your Vue.js App" v-on:sendPoints="updateCoordinates"/>
+
+      </div>
       <Plotly :data="data" :layout="layout" :display-mode-bar="false"></Plotly>
     </div>
     <table >
@@ -57,7 +61,9 @@ export default {
         yaxis: {
           range: [-250, 250],
           type: 'linear'
-        }
+        },
+        height:600,
+        width:600,
       },
       config: {responsive: true}
     }

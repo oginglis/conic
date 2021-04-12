@@ -49,6 +49,7 @@ export default {
         p5.background(220);
         p5.normalMaterial();
         p5.rectMode(p5.CENTER);
+        p5.orbitControl();
 
         //
         d = p5.radians(slider.value());
@@ -69,13 +70,13 @@ export default {
         p5.line(0, 0, 0, 240);
         p5.push();
         p5.translate(0, -75)
-        p5.cone(70, 150, 24);
+        p5.cone(150, 150, 24);
         p5.pop();
         p5.push();
         p5.translate(0, 75);
         p5.angleMode(p5.DEGREES);
         p5.rotateZ(180);
-        p5.cone(70, 150, 24);
+        p5.cone(150, 150, 24);
         p5.pop();
       }
 
