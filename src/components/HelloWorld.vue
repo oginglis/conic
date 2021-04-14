@@ -32,14 +32,14 @@ export default {
       let slider, slider2, a, d, C, S, A, c, E;
       // let line_2d_s = []
       // let line_2d_t = []
-      let squareSize = 300;
+      let squareSize = 450;
 
       p5.setup = () =>{
         p5.createCanvas(500, 500, p5.WEBGL);
         createAllSliders();
         p5.angleMode( p5.RADIANS );
       //   assign inital values
-        d = p5.radians(slider.value());
+        d = convertSlider2(slider);
         a = p5.radians(slider2.value());
         C = p5.cos(a);
         S = p5.sin(a);
@@ -52,7 +52,7 @@ export default {
         p5.orbitControl();
 
         //
-        d = p5.radians(slider.value());
+        d = convertSlider2(slider);
         a = p5.radians(slider2.value());
         C = p5.cos(a);
         S = p5.sin(a);
@@ -80,17 +80,21 @@ export default {
         p5.pop();
       }
 
-      function convertSlider(sl) {
-        return sl.value() - 90
+      function convertSlider(s) {
+        return s.value() - 90
+      }
+
+      function convertSlider2(sl) {
+        return sl.value()/150
       }
 
       function createAllSliders() {
-        slider = p5.createSlider(-180, 180, 0, .01);
+        slider = p5.createSlider(-150, 150, 0, .01);
         slider.position(10, 10);
         slider.style('width', '80px');
         slider.input(resetPoints);
 
-        slider2 = p5.createSlider(0, 180, 90, .01);
+        slider2 = p5.createSlider(-90, 10, 90, .01);
         slider2.position(10, 30);
         slider2.style('width', '80px');
         slider2.input(resetPoints);
@@ -101,7 +105,7 @@ export default {
         this.line_2d_s = [];
         this.line_2d_t = [];
         this.aLabeldeg = p5.degrees(a);
-        this.dLabeldeg = p5.degrees(d);
+        this.dLabeldeg = d;
         this.aLabelrad = a;
         this.dLabelrad = d;
         let i;

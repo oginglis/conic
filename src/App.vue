@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1 class="mini-val-d"> d  = {{dValuedeg}} degrees {{dValuerad}} radians (translational distance in z axis)</h1>
+    <h1 class="mini-val-d"> d  = {{dValuedeg}}  (translational distance in z axis)</h1>
     <h1 class="mini-val-a"> a  = {{aValuedeg}} degrees {{aValuerad}} radians (angle of rotation in yz plane)</h1>
 
     <div class="viz-wrapper">
@@ -53,14 +53,19 @@ export default {
         type:"scatter"
       }],
       layout:{
+        showlegend: false,
         title: "Conic Section",
         xaxis: {
           range: [-250, 250],
-          type: 'linear'
+          type: 'linear',
+          showticklabels: false,
+
         },
         yaxis: {
           range: [-250, 250],
-          type: 'linear'
+          type: 'linear',
+          showticklabels: false,
+
         },
         height:600,
         width:600,
