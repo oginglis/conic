@@ -89,12 +89,12 @@ export default {
       }
 
       function createAllSliders() {
-        slider = p5.createSlider(-150, 150, 0, .01);
+        slider = p5.createSlider(-150, 150, 0, 1);
         slider.position(10, 10);
         slider.style('width', '80px');
         slider.input(resetPoints);
 
-        slider2 = p5.createSlider(-90, 10, 90, .01);
+        slider2 = p5.createSlider(-90, 90, 10, 1);
         slider2.position(10, 30);
         slider2.style('width', '80px');
         slider2.input(resetPoints);
@@ -108,51 +108,113 @@ export default {
         this.dLabeldeg = d;
         this.aLabelrad = a;
         this.dLabelrad = d;
+
         let i;
         for (i = -250; i < 250; i++){
-          this.line_2d_s.push(p5.degrees(l_s(i)));
-          this.line_2d_t.push(p5.degrees(l_t(i)));
+          this.line_2d_s.push(p5.degrees(l_s(i, a, d)));
+          this.line_2d_t.push(p5.degrees(l_t(i, a, d)));
         }
+
         this.sendPoints();
       }
 
-
-      function l_t(alpha) {
+      function l_t(alpha, a, d) {
         if (d == 0 && a == 0) {
           return 0
         } else if (d == 0 && a != 0) {
           return d * p5.cos(alpha)
-        } else if (0 <= a && a < p5.PI / 4) {
+        } else if (0 < d && 0 <= a && a < p5.PI / 4) {
           return d * p5.cos(alpha)
-        } else if (a == p5.PI / 4) {
+        } else if (0 < d && a == p5.PI / 4) {
           return alpha
-        } else {
+        } else if (0 < d && a > p5.PI / 4) {
           A = 0.5 * d * (-1 / (S + C) - p5.sin(p5.PI / 4) / p5.sin(p5.PI / 4 + a));
-          c = p5.sin(p5.PI / 4) / p5.sin(p5.PI / 4 + a) + A
+          c = d*p5.sin(p5.PI / 4) / p5.sin(p5.PI / 4 + a) + A
           E = c / A
           return p5.cos(alpha) * (A / (1 - E * p5.sin(alpha)))
+        } else if ( d ==0 && a > p5.PI / 4) { // degenerate case
+          return  alpha
+        } else if ( d < 0 && a >= 0) {
+          d = -d;
+          return -l_t(alpha, a, d)
+        } else if (a < 0 && d >= 0) {
+          a = - a;
+          return -l_t(alpha, a, d)
+        } else { // last case, both a and d negative
+          a = - a;
+          d = -d;
+          return l_t(alpha, a, d)
         }
       }
-
-      function l_s(alpha){
+      function l_s(alpha, a, d){
         if(d==0 && a==0){
           return 0
         } else if ( d==0 && a!=0){
           return alpha
-        } else if (0<= a && a< p5.PI/4){
+        } else if (0 < d && 0<= a && a< p5.PI/4){
           let r1 = d*p5.sin(p5.PI/4)/(p5.sin(p5.PI/4 + a))
           let r2 = d*p5.sin(p5.PI/4)/(p5.sin(p5.PI/4 - a))
-          return -r1 + r2 + 0.5*(r1 + r2)*p5.sin(alpha)
-        } else if (a == p5.PI/4 ) {
-          return alpha**2
-        } else {
+          return 0.5*(r1 - r2 +(r1 + r2)*p5.sin(alpha))
+        } else if (0 < d && a == p5.PI/4 ) {
+          return -0.5*d**(-1)*alpha**2
+        } else if (0 < d && a > p5.PI / 4) {
+
           A = 0.5*d*(-1/(S+C) -p5.sin(p5.PI/4)/p5.sin(p5.PI/4 + a));
-          c = p5.sin(p5.PI/4)/p5.sin(p5.PI/4 + a) + A
+          c = d*p5.sin(p5.PI/4)/p5.sin(p5.PI/4 + a) + A
           E = c/A
           return p5.sin(alpha)*(A/(1-E*p5.sin(alpha)));
-
+        } else if ( d == 0 && a > p5.PI / 4 ) {
+          return (1/1000 + 1/p5.cos(a))*alpha
+        } else if (d< 0 && a >=0 ) {
+            d = -d;
+            return -l_s(alpha, a, d)
+        } else if (a <0  && d>= 0) {
+            a = -a;
+            return -l_s(alpha, a, d)
+        } else {
+            a = -a;
+            d = -d;
+            return l_s(alpha, a, d)
         }
       }
+
+
+      // function l_t(alpha) {
+      //   if (d == 0 && a == 0) {
+      //     return 0
+      //   } else if (d == 0 && a != 0) {
+      //     return d * p5.cos(alpha)
+      //   } else if (0 <= a && a < p5.PI / 4) {
+      //     return d * p5.cos(alpha)
+      //   } else if (a == p5.PI / 4) {
+      //     return alpha
+      //   } else {
+      //     A = 0.5 * d * (-1 / (S + C) - p5.sin(p5.PI / 4) / p5.sin(p5.PI / 4 + a));
+      //     c = p5.sin(p5.PI / 4) / p5.sin(p5.PI / 4 + a) + A
+      //     E = c / A
+      //     return p5.cos(alpha) * (A / (1 - E * p5.sin(alpha)))
+      //   }
+      // }
+
+      // function l_s(alpha){
+      //   if(d==0 && a==0){
+      //     return 0
+      //   } else if ( d==0 && a!=0){
+      //     return alpha
+      //   } else if (0<= a && a< p5.PI/4){
+      //     let r1 = d*p5.sin(p5.PI/4)/(p5.sin(p5.PI/4 + a))
+      //     let r2 = d*p5.sin(p5.PI/4)/(p5.sin(p5.PI/4 - a))
+      //     return -r1 + r2 + 0.5*(r1 + r2)*p5.sin(alpha)
+      //   } else if (a == p5.PI/4 ) {
+      //     return alpha**2
+      //   } else {
+      //     A = 0.5*d*(-1/(S+C) -p5.sin(p5.PI/4)/p5.sin(p5.PI/4 + a));
+      //     c = p5.sin(p5.PI/4)/p5.sin(p5.PI/4 + a) + A
+      //     E = c/A
+      //     return p5.sin(alpha)*(A/(1-E*p5.sin(alpha)));
+
+        // }
+      // }
 
     }
     // Attach the canvas to the div
