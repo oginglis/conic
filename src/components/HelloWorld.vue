@@ -36,7 +36,7 @@ export default {
       let squareSize = 450;
 
       p5.setup = () =>{
-        p5.createCanvas(500, 500, p5.WEBGL);
+        p5.createCanvas(700, 500, p5.WEBGL);
         createAllSliders();
         p5.angleMode( p5.RADIANS );
       //   assign inital values
@@ -44,6 +44,7 @@ export default {
         a = p5.radians(slider2.value());
         C = p5.cos(a);
         S = p5.sin(a);
+        p5.camera(0, 0, 600);
       }
 
       p5.draw = ()=> {
@@ -66,11 +67,11 @@ export default {
         p5.square(0, 0, squareSize);
         p5.pop();
         p5.stroke(126);
-        p5.line(0, 0, 240, 0);
-        p5.line(0, 0, 0, -240);
+        // p5.line(0, 0, 240, 0);
+        // p5.line(0, 0, 0, -240);
         p5.stroke(255);
-        p5.line(0, 0, -240, 0);
-        p5.line(0, 0, 0, 240);
+        // p5.line(0, 0, -240, 0);
+        // p5.line(0, 0, 0, 240);
         p5.push();
         p5.translate(0, -75);
         p5.ambientMaterial(0,62,116);
