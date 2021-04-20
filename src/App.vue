@@ -54,7 +54,7 @@ export default {
       }],
       layout:{
         showlegend: false,
-        title: "Conic Section",
+        title: "Projection of Cone onto a Plane",
         xaxis: {
           range: [-250, 250],
           type: 'linear',
