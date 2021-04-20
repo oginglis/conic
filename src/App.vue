@@ -31,6 +31,7 @@ import { Plotly } from 'vue-plotly';
 
 
 export default {
+  title: 'Foo Page',
   name: 'App',
   components: {
     HelloWorld,

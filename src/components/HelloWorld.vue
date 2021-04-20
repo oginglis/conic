@@ -5,6 +5,7 @@
 <script>
 import P5 from 'p5';
 export default {
+  title: 'Conic Section',
   name: 'Canvas',
   props: {
     onOff: Boolean,
