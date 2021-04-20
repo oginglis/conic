@@ -46,7 +46,8 @@ export default {
       }
 
       p5.draw = ()=> {
-        p5.background(220);
+        p5.background(255);
+        p5.lights();
         p5.normalMaterial();
         p5.rectMode(p5.CENTER);
         p5.orbitControl();
@@ -60,6 +61,7 @@ export default {
         p5.push();
         p5.translate(0, slider.value(), 0);
         p5.rotateX(convertSlider(slider2));
+        p5.ambientMaterial(212,239,252);
         p5.square(0, 0, squareSize);
         p5.pop();
         p5.stroke(126);
@@ -69,13 +71,15 @@ export default {
         p5.line(0, 0, -240, 0);
         p5.line(0, 0, 0, 240);
         p5.push();
-        p5.translate(0, -75)
+        p5.translate(0, -75);
+        p5.ambientMaterial(0,62,116);
         p5.cone(150, 150, 24);
         p5.pop();
         p5.push();
         p5.translate(0, 75);
         p5.angleMode(p5.DEGREES);
         p5.rotateZ(180);
+        p5.ambientMaterial(0,62,116);
         p5.cone(150, 150, 24);
         p5.pop();
       }
@@ -92,11 +96,13 @@ export default {
         slider = p5.createSlider(-150, 150, 0, 1);
         slider.position(10, 10);
         slider.style('width', '80px');
+        slider.addClass('styleSlider');
         slider.input(resetPoints);
 
         slider2 = p5.createSlider(-90, 90, 10, 1);
         slider2.position(10, 30);
         slider2.style('width', '80px');
+        slider2.addClass('styleSlider');
         slider2.input(resetPoints);
 
       }
@@ -228,5 +234,30 @@ export default {
 <style>
 #canvas {
 
+
 }
+.styleSlider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+    background: #002147;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.styleSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+
+  background: #0091D4;
+  cursor: pointer;
+}
+
+
 </style>

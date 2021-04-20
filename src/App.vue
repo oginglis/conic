@@ -53,6 +53,8 @@ export default {
         type:"scatter"
       }],
       layout:{
+        paper_bgcolor: "rgba(0,0,0,0)",
+        colorway : ['#002147'],
         showlegend: false,
         title: "Projection of Cone onto a Plane",
         xaxis: {
@@ -67,8 +69,8 @@ export default {
           showticklabels: false,
 
         },
-        height:600,
-        width:600,
+        height:630,
+        width:630,
       },
       config: {responsive: true}
     }
@@ -88,13 +90,14 @@ export default {
 </script>
 
 <style>
-#app {
+#app, body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  background-color: #EBEEEE;
 
 }
 
