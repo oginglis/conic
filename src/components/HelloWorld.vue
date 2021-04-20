@@ -131,7 +131,7 @@ export default {
           A = 0.5 * d * (-1 / (S + C) - p5.sin(p5.PI / 4) / p5.sin(p5.PI / 4 + a));
           c = d*p5.sin(p5.PI / 4) / p5.sin(p5.PI / 4 + a) + A
           E = c / A
-          return p5.cos(alpha) * (A / (1 - E * p5.sin(alpha)))
+          return p5.cos(alpha) * (E*c / (1 - E * p5.sin(alpha)))
         } else if ( d ==0 && a > p5.PI / 4) { // degenerate case
           return  alpha
         } else if ( d < 0 && a >= 0) {
@@ -162,7 +162,7 @@ export default {
           A = 0.5*d*(-1/(S+C) -p5.sin(p5.PI/4)/p5.sin(p5.PI/4 + a));
           c = d*p5.sin(p5.PI/4)/p5.sin(p5.PI/4 + a) + A
           E = c/A
-          return p5.sin(alpha)*(A/(1-E*p5.sin(alpha)));
+          return p5.sin(alpha)*(E*c/(1-E*p5.sin(alpha)));
         } else if ( d == 0 && a > p5.PI / 4 ) {
           return (1/1000 + 1/p5.cos(a))*alpha
         } else if (d< 0 && a >=0 ) {
