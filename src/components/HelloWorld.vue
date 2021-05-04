@@ -30,7 +30,7 @@ export default {
     const sketch=(p5)=> {
       // These are your typical setup() and draw() methods
       /* eslint-disable no-param-reassign */
-      let slider, slider2, a, d, C, S, A, c, E;
+      let slider, slider2, a, d, E, F;
       // let line_2d_s = []
       // let line_2d_t = []
       let squareSize = 450;
@@ -42,8 +42,6 @@ export default {
       //   assign inital values
         d = convertSlider2(slider);
         a = p5.radians(slider2.value());
-        C = p5.cos(a);
-        S = p5.sin(a);
         p5.camera(0, 0, 600);
       }
 
@@ -57,8 +55,7 @@ export default {
         //
         d = convertSlider2(slider);
         a = p5.radians(slider2.value());
-        C = p5.cos(a);
-        S = p5.sin(a);
+
 
         p5.push();
         p5.translate(0, slider.value(), 0);
@@ -116,73 +113,68 @@ export default {
         this.dLabeldeg = d;
         this.aLabelrad = a;
         this.dLabelrad = d;
-
         let i;
-        for (i = -250; i < 250; i++){
-          this.line_2d_s.push(p5.degrees(l_s(i, a, d)));
-          this.line_2d_t.push(p5.degrees(l_t(i, a, d)));
+        if (a != 0 && d != 0 && a/d<0){
+          for (i = -250; i < 250; i++){
+            this.line_2d_t.push(p5.degrees(l_t( p5.abs(a), p5.abs(d), i)));
+            this.line_2d_s.push(-p5.degrees(l_s( p5.abs(a), p5.abs(d), i)));
+          }
+        } else {
+          for (i = -250; i < 250; i++){
+            this.line_2d_t.push(p5.degrees(l_t( p5.abs(a), p5.abs(d), i)));
+            this.line_2d_s.push(-p5.degrees(l_s( p5.abs(a), p5.abs(d), i)));
+          }
         }
+
+        if(p5.abs(a) >= p5.PI/4 && d == 0){
+          for (i = -250; i < 250; i++){
+            this.line_2d_t.push(-p5.degrees(l_t( p5.abs(a), p5.abs(d), i)));
+            this.line_2d_s.push(p5.degrees(l_s( p5.abs(a), p5.abs(d), i)));
+          }
+        }
+
 
         this.sendPoints();
       }
 
-      function l_t(alpha, a, d) {
-        if (d == 0 && a == 0) {
+      function A(x,X) {
+
+        return (2**0.5)*X/p5.sin(p5.pi/4 + x)
+      }
+
+      function C(x,X) {
+        F = (X/(2**0.5 + 1))*(p5.sin(p5.PI/2 - x)/p5.cos(x))
+        return A(x,X) + F
+      }
+      function l_t(x, X, alpha) {
+        if (X==0 && 0<= x && x<p5.PI/4){
           return 0
-        } else if (d == 0 && a != 0) {
-          return d * p5.cos(alpha)
-        } else if (0 < d && 0 <= a && a < p5.PI / 4) {
-          return d * p5.cos(alpha)
-        } else if (0 < d && a == p5.PI / 4) {
+        } else if (X == 0 && x >= p5.PI/4){
           return alpha
-        } else if (0 < d && a > p5.PI / 4) {
-          A = 0.5 * d * (-1 / (S + C) - p5.sin(p5.PI / 4) / p5.sin(p5.PI / 4 + a));
-          c = d*p5.sin(p5.PI / 4) / p5.sin(p5.PI / 4 + a) + A
-          E = c / A
-          return p5.cos(alpha) * (E*c / (1 - E * p5.sin(alpha)))
-        } else if ( d ==0 && a > p5.PI / 4) { // degenerate case
-          return  alpha
-        } else if ( d < 0 && a >= 0) {
-          d = -d;
-          return -l_t(alpha, a, d)
-        } else if (a < 0 && d >= 0) {
-          a = - a;
-          return -l_t(alpha, a, d)
-        } else { // last case, both a and d negative
-          a = - a;
-          d = -d;
-          return l_t(alpha, a, d)
+        } else if (X>0 &&  0 <= x && x < p5.PI/4){
+          return X*p5.cos(alpha)
+        } else if (X>0 && x == p5.PI/4){
+          return alpha
+        } else if (X>0 && x > p5.PI/4){
+            E = C(x,X)/A(x,X)
+            return p5.cos(alpha)*(E*C(x,X)/(1-E*p5.sin(alpha)))
         }
       }
-      function l_s(alpha, a, d){
-        if(d==0 && a==0){
-          return 0
-        } else if ( d==0 && a!=0){
-          return alpha
-        } else if (0 < d && 0<= a && a< p5.PI/4){
-          let r1 = d*p5.sin(p5.PI/4)/(p5.sin(p5.PI/4 + a))
-          let r2 = d*p5.sin(p5.PI/4)/(p5.sin(p5.PI/4 - a))
-          return 0.5*(r1 - r2 +(r1 + r2)*p5.sin(alpha))
-        } else if (0 < d && a == p5.PI/4 ) {
-          return -0.5*d**(-1)*alpha**2
-        } else if (0 < d && a > p5.PI / 4) {
 
-          A = 0.5*d*(-1/(S+C) -p5.sin(p5.PI/4)/p5.sin(p5.PI/4 + a));
-          c = d*p5.sin(p5.PI/4)/p5.sin(p5.PI/4 + a) + A
-          E = c/A
-          return p5.sin(alpha)*(E*c/(1-E*p5.sin(alpha)));
-        } else if ( d == 0 && a > p5.PI / 4 ) {
-          return (1/1000 + 1/p5.cos(a))*alpha
-        } else if (d< 0 && a >=0 ) {
-            d = -d;
-            return -l_s(alpha, a, d)
-        } else if (a <0  && d>= 0) {
-            a = -a;
-            return -l_s(alpha, a, d)
-        } else {
-            a = -a;
-            d = -d;
-            return l_s(alpha, a, d)
+      function l_s(x, X, alpha){
+        if (X == 0 && x < p5.PI/4 && p5.PI/4 == 0){
+          return 0
+        } else if (X == 0 && x >= p5.PI/4){
+          return (1/p5.sin(-p5.PI/4 + x + 0.01))*alpha
+        } else if (X>0 && 0 <= x && x < p5.PI/4){
+          let r1 = X*p5.sin(p5.PI/4)/(p5.sin(p5.PI/4 + x))
+          let r2 = X*p5.sin(p5.PI/4)/(p5.sin(p5.PI/4 - x))
+          return 0.5*(r1 - r2 + (r1 + r2)*p5.sin(alpha))
+        } else if (X>0 && x == p5.PI/4){
+          return -0.5*X**(-1)*alpha**2
+        } else if (X>0 && x> p5.PI/4){
+          E = C(x,X)/A(x,X)
+          return p5.sin(alpha)*(E*C(x,X)/(1-E*p5.sin(alpha)))
         }
       }
 
