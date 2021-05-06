@@ -15,7 +15,7 @@ export default {
       line_2d_s: [],
       line_2d_t: [],
       aLabeldeg: 0,
-      dLabeldeg: 90,
+      dLabeldeg: 0,
       dLabelrad: 0,
       aLabelrad: 0,
     };

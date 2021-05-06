@@ -44,7 +44,7 @@ export default {
   },
   data: function(){
     return {
-      aValuedeg: 90,
+      aValuedeg: 0,
       dValuedeg: 0,
       aValuerad: 1.57,
       dValuerad: 0,
