@@ -98,7 +98,7 @@ export default {
         slider.addClass('styleSlider');
         slider.input(resetPoints);
 
-        slider2 = p5.createSlider(-90, 90, 10, 1);
+        slider2 = p5.createSlider(-90, 90, 0, 1);
         slider2.position(10, 30);
         slider2.style('width', '80px');
         slider2.addClass('styleSlider');
