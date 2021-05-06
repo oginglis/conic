@@ -139,7 +139,7 @@ export default {
 
       function A(x,X) {
 
-        return (2**0.5)*X/p5.sin(p5.pi/4 + x)
+        return (2**0.5)*X/p5.sin(p5.PI/4 + x)
       }
 
       function C(x,X) {
