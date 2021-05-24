@@ -11,7 +11,7 @@
       </div>
       <Plotly :data="data" :layout="layout" :display-mode-bar="false"></Plotly>
     </div>
-    <table >
+    <!-- <table >
       <tr>
         <th></th>
         <th>X</th>
@@ -20,7 +20,7 @@
         <td>{{item.toFixed(2)}}</td>
         <td>{{fullCord[1][index].toFixed(2)}}</td>
       </tr>
-    </table>
+    </table> -->
   </div>
 </template>
 
